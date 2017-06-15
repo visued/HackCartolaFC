@@ -1,0 +1,29 @@
+#:import Toolbar kivymd.toolbar.Toolbar
+#:import ThemeManager kivymd.theming.ThemeManager
+#:import MDList kivymd.list.MDList
+#:import OneLineListItem kivymd.list.OneLineListItem
+#:import TwoLineListItem kivymd.list.TwoLineListItem
+#:import ThreeLineListItem kivymd.list.ThreeLineListItem
+#:import OneLineAvatarListItem kivymd.list.OneLineAvatarListItem
+#:import OneLineIconListItem kivymd.list.OneLineIconListItem
+#:import OneLineAvatarIconListItem kivymd.list.OneLineAvatarIconListItem
+
+Controller:
+    id: cont01
+    BoxLayout:
+        orientation: 'vertical'
+
+        Toolbar:
+            id: toolbar
+            title: app.get_StatusMercado()
+            #left_action_items: [['menu', lambda x: app.nav_drawer.toggle() if (app.root.ids.scr_mngr.current == 'home') else None]]
+
+        ScreenManager:
+            id: screen_root_manager
+            Screen:
+                name: 'list_atletas'
+                ScrollView:
+                    do_scroll_x: False
+                    on_scroll_move: app.popula_listview()
+                    MDList:
+                        id: mdlist
