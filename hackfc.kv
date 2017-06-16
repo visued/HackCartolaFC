@@ -5,7 +5,6 @@
 
 <Atletas@BoxLayout>:
     nome: ''
-    preco_num: ''
     link_on_avatar: ''
 
     size_hint_y: None
@@ -43,15 +42,6 @@
                 id: nome
                 markup: True
                 text: root.nome
-                text_size: self.width, None
-                size_hint_y: None
-                height: self.texture_size[1]
-                color: 0, 0, 0
-
-            Label:
-                id: preco_num
-                markup: True
-                text: 'C$: ' + root.preco_num
                 text_size: self.width, None
                 size_hint_y: None
                 height: self.texture_size[1]
