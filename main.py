@@ -58,9 +58,9 @@ class HackFCApp(App):
                 self.foto = ''
             atletas.append({
                 'viewclass': 'Atletas',
-                'nome': '[b]'+self.detalhe['nome']+'[/b]' + '\n'+'[color=22FF59]C$'+str(self.detalhe['preco_num'])+'[/color]',
+                'nome': '[b]'+self.detalhe['nome']+'[/b]' + '\n'+'[color=22FF59]C$ '+str(self.detalhe['preco_num'])+'[/color]',
                 'link_on_avatar': self.foto,
-                'height': dp(100)
+                'height': dp(80)
             })
         self.rv.data = atletas
 
