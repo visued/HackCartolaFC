@@ -1,29 +1,81 @@
+#:import MDCard kivymd.card.MDCard
+#:import MDSeparator kivymd.card.MDSeparator
 #:import Toolbar kivymd.toolbar.Toolbar
-#:import ThemeManager kivymd.theming.ThemeManager
-#:import MDList kivymd.list.MDList
-#:import OneLineListItem kivymd.list.OneLineListItem
-#:import TwoLineListItem kivymd.list.TwoLineListItem
-#:import ThreeLineListItem kivymd.list.ThreeLineListItem
-#:import OneLineAvatarListItem kivymd.list.OneLineAvatarListItem
-#:import OneLineIconListItem kivymd.list.OneLineIconListItem
-#:import OneLineAvatarIconListItem kivymd.list.OneLineAvatarIconListItem
+#:import get_color_from_hex kivy.utils.get_color_from_hex
 
-Controller:
-    id: cont01
-    BoxLayout:
+<Atletas@BoxLayout>:
+    nome: ''
+    preco_num: ''
+    link_on_avatar: ''
+
+    size_hint_y: None
+    minimum_height: self.minimum_height
+
+    canvas.before:
+        Color:
+            rgb: .95, .95, .95
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDCard:
+        id: box_atleta
+        size_hint_y: None
+        spacing: dp(5)
+        padding: dp(5)
         orientation: 'vertical'
+        height: root.height
 
-        Toolbar:
-            id: toolbar
-            title: app.get_StatusMercado()
-            #left_action_items: [['menu', lambda x: app.nav_drawer.toggle() if (app.root.ids.scr_mngr.current == 'home') else None]]
+        BoxLayout:
+            id: avatar_nome_data_name
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
 
-        ScreenManager:
-            id: screen_root_manager
-            Screen:
-                name: 'list_atletas'
-                ScrollView:
-                    do_scroll_x: False
-                    on_scroll_move: app.popula_listview()
-                    MDList:
-                        id: mdlist
+            AsyncImage:
+                id: avatar
+                source: root.link_on_avatar
+                size_hint_x: None
+                width: self.height
+                allow_stretch: True
+
+            Label:
+                id: nome
+                markup: True
+                text: root.nome
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+                color: 0, 0, 0
+
+            Label:
+                id: preco_num
+                markup: True
+                text: 'C$: ' + root.preco_num
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+                color: 0, 0, 0
+
+BoxLayout:
+    orientation: "vertical"
+    Toolbar:
+        title: 'HackFC - ' + app.get_StatusMercado()
+        pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+        md_bg_color: get_color_from_hex(colors['Teal']['500'])
+        background_palette: 'Teal'
+        background_hue: '500'
+    RecycleView:
+        id: rv
+        key_size: 'height'
+        key_viewclass: 'viewclass'
+
+        RecycleBoxLayout:
+            id: box
+            default_size: None, None
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            spacing: dp(10)
+            padding: dp(5)

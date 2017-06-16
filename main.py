@@ -1,37 +1,33 @@
+import os
+import sys
+
+from kivy.lang import Builder
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
+from kivy.metrics import dp
 from kivy.uix.image import AsyncImage as Image
-from kivymd.selectioncontrols import MDCheckbox
-
-
 from kivymd.theming import ThemeManager
-from kivymd.list import ILeftBody, ILeftBodyTouch, IRightBodyTouch, MDList, TwoLineAvatarListItem
-from kivymd.button import MDIconButton
+from lists import Icon
+
+
+Builder.load_file('%s/lists.kv' % os.path.split(os.path.abspath(sys.argv[0]))[0])
 
 
 import requests
 
 
-class Controller(BoxLayout):
-    pass
-
 class HackFCApp(App):
     theme_cls = ThemeManager()
 
-
-    def build(self):
-        pass
-
-    def get_StatusMercado(self):
+    def get_StatusMercado(self, *args):
         self.url = 'https://api.cartolafc.globo.com/mercado/status'
         self.r = requests.get(self.url)
         self.status = self.r.json()
 
 
         if self.status['status_mercado'] == 1:
-            self.status_mer = 'Fechado'
-        else:
             self.status_mer = 'Aberto'
+        else:
+            self.status_mer = 'Fechado'
 
 
         self.status_= 'Mercado: '+ self.status_mer + ' Fecha em: ' + \
@@ -43,35 +39,31 @@ class HackFCApp(App):
         return self.status_
 
 
-    def popula_listview(self):
+    def build(self):
+        self.rv = self.root.ids.rv
+        self.popula_listview()
+
+
+    def popula_listview(self, *args):
         self.url = 'https://api.cartolafc.globo.com/atletas/mercado'
         self.r = requests.get(self.url)
         self.dados = self.r.json()
         self.atletas = self.dados['atletas']
+        atletas = []
 
         for self.detalhe in self.atletas:
-            self.mdlist = self.root.ids.mdlist
             if self.detalhe['foto'] is not None:
                 self.foto = self.detalhe['foto'][:-11]+'140x140.png'
             else:
                 self.foto = ''
-            item = TwoLineAvatarListItem(text=self.detalhe['nome'], secondary_text=str(self.detalhe['preco_num']))
-            avatar = AvatarSampleWidget(source=self.foto)
-            item.add_widget(avatar)
-            self.mdlist.add_widget(item)
-
-
-class AvatarSampleWidget(ILeftBody, Image):
-    pass
-
-
-class IconLeftSampleWidget(ILeftBodyTouch, MDIconButton):
-    pass
-
-
-class IconRightSampleWidget(IRightBodyTouch, MDCheckbox):
-    pass
-
+            atletas.append({
+                'viewclass': 'Atletas',
+                'nome': self.detalhe['nome'],
+                'link_on_avatar': self.foto,
+                'preco_num': str(self.detalhe['preco_num']),
+                'height': dp(100)
+            })
+        self.rv.data = atletas
 
 if __name__ == '__main__':
     HackFCApp().run()
