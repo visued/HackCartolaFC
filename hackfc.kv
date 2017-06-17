@@ -2,6 +2,7 @@
 #:import MDSeparator kivymd.card.MDSeparator
 #:import Toolbar kivymd.toolbar.Toolbar
 #:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import MDDropdownMenu kivymd.menu.MDDropdownMenu
 
 <Atletas@BoxLayout>:
     nome: ''
@@ -55,6 +56,7 @@ BoxLayout:
         md_bg_color: get_color_from_hex(colors['Grey']['800'])
         background_palette: 'Teal'
         background_hue: '500'
+        right_action_items: [['dots-vertical', lambda x: MDDropdownMenu(items=app.menu_items, width_mult=self.width,ver_growth= 'down',hor_growth = 'right').open(self)]]
 
     RecycleView:
         id: rv

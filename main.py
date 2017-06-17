@@ -42,6 +42,22 @@ class HackFCApp(App):
     def build(self):
         self.rv = self.root.ids.rv
         self.popula_listview()
+        self.menu_items = [
+            {'viewclass': 'MDMenuItem',
+             'text': 'Classificar por:'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem',
+             'text': 'Example item'},
+        ]
 
 
     def popula_listview(self, *args):
