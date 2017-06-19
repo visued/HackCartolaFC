@@ -1,5 +1,5 @@
-import os
-import sys
+import os, sys
+from datetime import datetime
 
 from kivy.lang import Builder
 from kivy.app import App
@@ -25,13 +25,8 @@ class HackFCApp(App):
 
         status_mer = ''
         if status['status_mercado'] == 1:
-            status_mer = "Marcado Aberto: Fecha em %s/%s/%s %s:%s"%(
-                status['fechamento']['dia'],
-                status['fechamento']['mes'],
-                status['fechamento']['ano'],
-                status['fechamento']['hora'],
-                status['fechamento']['minuto']
-            )
+            status_mer = "Marcado Aberto: Fecha em %s"% datetime.fromtimestamp(
+                int(statu_mer['fechamento']['timestamp']).strftime("%Y/%m/%d %H:%m")))
         else:
             status_mer = 'Mercado Fechado'
 
