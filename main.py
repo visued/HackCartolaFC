@@ -24,9 +24,9 @@ class HackFCApp(App):
         status = r.json()
 
         status_mer = ''
-        if status['status_mercado'] == 1:
+        if True:  # status['status_mercado'] == 1:
             status_mer = "Marcado Aberto: Fecha em %s"% datetime.fromtimestamp(
-                int(statu_mer['fechamento']['timestamp']).strftime("%Y/%m/%d %H:%m")))
+                int(status['fechamento']['timestamp'])).strftime("%Y/%m/%d %H:%M")
         else:
             status_mer = 'Mercado Fechado'
 
