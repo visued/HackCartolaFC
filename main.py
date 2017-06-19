@@ -62,7 +62,7 @@ class HackFCApp(App):
         a = {
             'viewclass': 'Atletas',
             'nome': '[b]%s[/b]\n[color=22FF59]C$ %s[/color]'%(
-                atleta['nome'], atleta['preco_num']),
+                atleta['apelido'], atleta['preco_num']),
             'link_on_avatar': foto,
             'height': dp(80)
         }
