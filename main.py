@@ -19,66 +19,62 @@ class HackFCApp(App):
     theme_cls = ThemeManager()
 
     def get_StatusMercado(self, *args):
-        self.url = 'https://api.cartolafc.globo.com/mercado/status'
-        self.r = requests.get(self.url)
-        self.status = self.r.json()
+        url = 'https://api.cartolafc.globo.com/mercado/status'
+        r = requests.get(url)
+        status = r.json()
 
-
-        if self.status['status_mercado'] == 1:
-            self.status_mer = 'Aberto'
+        status_mer = ''
+        if status['status_mercado'] == 1:
+            status_mer = "Marcado Aberto: Fecha em %s/%s/%s %s:%s"%(
+                status['fechamento']['dia'],
+                status['fechamento']['mes'],
+                status['fechamento']['ano'],
+                status['fechamento']['hora'],
+                status['fechamento']['minuto']
+            )
         else:
-            self.status_mer = 'Fechado'
+            status_mer = 'Mercado Fechado'
 
+        return status_mer
 
-        self.status_= 'Mercado: '+ self.status_mer + ' Fecha em: ' + \
-                                   str(self.status['fechamento']['dia']) + '/' +\
-                                   str(self.status['fechamento']['mes']) + '/' +\
-                                   str(self.status['fechamento']['ano']) + ' ' +\
-                                   str(self.status['fechamento']['hora']) + ':' +\
-                                   str(self.status['fechamento']['minuto'])
-        return self.status_
 
 
     def build(self):
         self.rv = self.root.ids.rv
         self.popula_listview()
         self.menu_items = [
-            {'viewclass': 'MDMenuItem',
-             'text': 'Classificar por:'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
-            {'viewclass': 'MDMenuItem',
-             'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Classificar por:'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
+            {'viewclass': 'MDMenuItem', 'text': 'Example item'},
         ]
 
+    def proccess_atleta(self, atleta):
+        foto = ''
+        try:
+            foto = atleta['foto'][:-11]+'140x140.png'
+        except :
+            pass
+
+        a = {
+            'viewclass': 'Atletas',
+            'nome': '[b]%s[/b]\n[color=22FF59]C$ %s[/color]'%(
+                atleta['apelido'], atleta['preco_num']),
+            'link_on_avatar': foto,
+            'height': dp(80)
+        }
+        return a
 
     def popula_listview(self, *args):
-        self.url = 'https://api.cartolafc.globo.com/atletas/mercado'
-        self.r = requests.get(self.url)
-        self.dados = self.r.json()
-        self.atletas = self.dados['atletas']
-        atletas = []
+        url = 'https://api.cartolafc.globo.com/atletas/mercado'
+        r = requests.get(url)
+        dados = r.json()
+        atletas = dados['atletas']
 
-        for self.detalhe in self.atletas:
-            if self.detalhe['foto'] is not None:
-                self.foto = self.detalhe['foto'][:-11]+'140x140.png'
-            else:
-                self.foto = ''
-            atletas.append({
-                'viewclass': 'Atletas',
-                'nome': '[b]'+self.detalhe['nome']+'[/b]' + '\n'+'[color=22FF59]C$ '+str(self.detalhe['preco_num'])+'[/color]',
-                'link_on_avatar': self.foto,
-                'height': dp(80)
-            })
-        self.rv.data = atletas
+        self.rv.data = [self.proccess_atleta(a) for a in atletas]
 
 if __name__ == '__main__':
     HackFCApp().run()

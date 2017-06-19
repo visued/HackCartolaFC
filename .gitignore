@@ -1,0 +1,17 @@
+*.pyc
+*.pyo
+*.pyw
+
+__pycache__/
+.idea/
+bin/
+.buildozer/
+buildozer/
+*.spec
+
+*.db
+*.storage
+*.sqlite
+*.sqlite3
+
+
