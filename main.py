@@ -25,7 +25,7 @@ class HackFCApp(App):
 
         status_mer = ''
         if True:  # status['status_mercado'] == 1:
-            status_mer = "Marcado Aberto: Fecha em %s"% datetime.fromtimestamp(
+            status_mer = "Mercado Aberto: Fecha em %s"% datetime.fromtimestamp(
                 int(status['fechamento']['timestamp'])).strftime("%d/%m/%Y %H:%M")
         else:
             status_mer = 'Mercado Fechado'
@@ -50,8 +50,13 @@ class HackFCApp(App):
     def proccess_atleta(self, atleta):
         foto = ''
         try:
-            foto = atleta['foto'][:-11]+'140x140.png'
-        except :
+            if atleta['foto'][-4:] == '.png':
+                foto = atleta['foto'][:-11]+'140x140.png'
+            elif atleta['foto'][-5:] == '.jpeg':
+                foto = atleta['foto'][:-12] + '140x140.jpeg'
+            else:
+                foto = ''
+        except:
             pass
 
         a = {
